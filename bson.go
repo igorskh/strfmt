@@ -16,7 +16,6 @@ package strfmt
 
 import (
 	"database/sql/driver"
-	"errors"
 	"fmt"
 
 	"github.com/globalsign/mgo/bson"
@@ -108,20 +107,16 @@ func (id *ObjectId) UnmarshalEasyJSON(in *jlexer.Lexer) {
 
 // GetBSON returns the hex representation of the ObjectId as a bson.M{} map.
 func (id *ObjectId) GetBSON() (interface{}, error) {
-	return bson.M{"data": bson.ObjectId(*id).Hex()}, nil
+	return bson.ObjectId(*id).Hex(), nil
 }
 
 // SetBSON sets the ObjectId from raw bson data
 func (id *ObjectId) SetBSON(raw bson.Raw) error {
-	var m bson.M
+	var m bson.ObjectId
 	if err := raw.Unmarshal(&m); err != nil {
+		fmt.Println(err)
 		return err
 	}
-
-	if data, ok := m["data"].(string); ok {
-		*id = NewObjectId(data)
-		return nil
-	}
-
-	return errors.New("couldn't unmarshal bson raw value as ObjectId")
+	*id = NewObjectId(m.Hex())
+	return nil
 }
