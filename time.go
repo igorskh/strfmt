@@ -185,7 +185,6 @@ func (t *DateTime) GetBSON() (interface{}, error) {
 func (t *DateTime) SetBSON(raw bson.Raw) error {
 	var m time.Time
 	if err := raw.Unmarshal(&m); err != nil {
-		fmt.Println(err.Error())
 		return err
 	}
 	var err error
