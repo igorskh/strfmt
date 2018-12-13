@@ -76,7 +76,7 @@ func (id *ObjectId) Value() (driver.Value, error) {
 }
 
 func (id *ObjectId) String() string {
-	return string(*id)
+	return bson.ObjectId(*id).Hex()
 }
 
 // MarshalJSON returns the ObjectId as JSON
