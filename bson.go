@@ -120,3 +120,19 @@ func (id *ObjectId) SetBSON(raw bson.Raw) error {
 	*id = NewObjectId(m.Hex())
 	return nil
 }
+
+// DeepCopyInto copies the receiver and writes its value into out.
+func (in *ObjectId) DeepCopyInto(out *ObjectId) {
+	*out = *in
+	return
+}
+
+// DeepCopy copies the receiver into a new ObjectId.
+func (in *ObjectId) DeepCopy() *ObjectId {
+	if in == nil {
+		return nil
+	}
+	out := new(ObjectId)
+	in.DeepCopyInto(out)
+	return out
+}
